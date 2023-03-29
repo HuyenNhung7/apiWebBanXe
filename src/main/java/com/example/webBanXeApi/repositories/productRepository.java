@@ -9,5 +9,10 @@ import com.example.webBanXeApi.models.product;
 import java.util.List;
 
 public interface productRepository extends JpaRepository<product, Long> {
-    List<product> findByProductName(String productName);
+        List<product> findByProductName(String productName);        
+        List<product> findByUrl(String url);
+        List<product> findByUrlAndProductNameContainingIgnoreCase(String url, String productName);
+List<product> findByProductNameContainingIgnoreCase(String productName);
+    //List<product> findByCategoryAndNameContaining(String category, String name);
+    //List<product> findByCategory(String category);
 }

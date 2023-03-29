@@ -42,7 +42,11 @@ public class product {
     private String productName;
     private int year;
     private double price;
-    private String url;
+    private String url;    
+    
+    @Column(name = "nguongoc")
+    private String nguongoc;
+
     
     public product() {}
 
@@ -53,11 +57,12 @@ public class product {
     public int getAge() {
         return Calendar.getInstance().get(Calendar.YEAR)-year;
     }
-    public product(String productName, int year, double price, String url) {
+    public product(String productName, int year, double price, String url,String nguongoc) {
         this.productName = productName;
         this.year = year;
         this.price = price;
         this.url = url;
+        this.nguongoc=nguongoc;
     }
         
     // id có thể tự sinh ra trong csdl

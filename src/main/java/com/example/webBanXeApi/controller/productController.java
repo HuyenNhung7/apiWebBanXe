@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.webBanXeApi.repositories.productRepository;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping(path = "/api/v1/products")
@@ -38,6 +41,53 @@ public class productController {
         return repository.findAll();
     }
     
+    @GetMapping("/find")
+    public ResponseEntity<ResponseObject> getAllProductswithcount() {       
+        List<product> result = repository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(result.size(),result)
+            );
+    }
+    @GetMapping("/find/page")
+    public ResponseEntity<ResponseObject> getAllProductswithpage() {       
+        List<product> result = repository.findAll(PageRequest.of(1,2)).getContent();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(result.size(),result)
+            );
+    }
+    @GetMapping("/find/page/real")
+    public ResponseEntity<ResponseObject> getAllProductswithpagereal(  
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String url,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "0") int size) {       
+        List<product> result = null;
+        if (name != null && url != null) {
+            result = repository.findByUrlAndProductNameContainingIgnoreCase(url, name);
+//result = repository.findByProductNameContainingIgnoreCase(name);
+        } else if (name != null) {
+            result = repository.findByProductNameContainingIgnoreCase(name);
+        } else if (url != null) {
+            result = repository.findByUrl(url);
+        } else {
+            result = repository.findAll();
+        }
+        
+        int total = result.size();
+        int totalpage = 1;
+        if(size!=0){
+            
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, total);
+        result = result.subList(fromIndex, toIndex);
+        totalpage = (int)total/size;
+
+        }
+        
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(total,result,totalpage)
+            );
+    }
     // Get detail product
     @GetMapping("/{id}")
     // Optional nghĩa là có thể null
