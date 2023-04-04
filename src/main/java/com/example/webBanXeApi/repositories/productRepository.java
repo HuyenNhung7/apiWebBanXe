@@ -6,6 +6,7 @@ package com.example.webBanXeApi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.webBanXeApi.models.product;
+import com.example.webBanXeApi.models.user;
 import java.util.List;
 
 public interface productRepository extends JpaRepository<product, Long> {
@@ -15,4 +16,6 @@ public interface productRepository extends JpaRepository<product, Long> {
 List<product> findByProductNameContainingIgnoreCase(String productName);
     //List<product> findByCategoryAndNameContaining(String category, String name);
     //List<product> findByCategory(String category);
+
+    
 }

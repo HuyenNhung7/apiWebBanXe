@@ -48,9 +48,10 @@ public class product {
     private String nguongoc;
 
     
-    public product() {}
+    public product() {
+    }
 
-    // caculated field = transient
+    // caced field = transient
     // Những trường không đc lưu trong csdl mà đc tính toàn từ những trường khác
     @Transient
     private int age;
