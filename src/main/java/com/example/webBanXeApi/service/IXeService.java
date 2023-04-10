@@ -2,6 +2,8 @@ package com.example.webBanXeApi.service;
 
 import com.example.webBanXeApi.models.Xe;
 import java.util.List;
+import java.util.Optional;
+
 public interface IXeService {
     //Hàm thêm xe
     public Xe addXe(Xe xe);
@@ -16,5 +18,5 @@ public interface IXeService {
     public List<Xe> getAllXe();
 
     // Hàm lấy 1 Xe theo Id
-    public Xe getOneXeById(long id);
+    public Optional<Xe> getOneXeById(long id);
 }

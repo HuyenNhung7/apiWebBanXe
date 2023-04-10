@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class XeServiceImpl implements IXeService {
     @Autowired
     private XeRepository repository;
@@ -43,22 +45,30 @@ public class XeServiceImpl implements IXeService {
                 xe1.setSoLuong(xe.getSoLuong());
                 xe1.setDeXuat(xe1.isDeXuat());
             }
+            return repository.save(xe1);
         }
         return null;
     }
 
     @Override
     public boolean deleteXe(long id) {
+        if(id>0) {
+            Xe xe1 = repository.getById(id);
+            if (xe1 != null) {
+                repository.delete(xe1);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public List<Xe> getAllXe() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
-    public Xe getOneXeById(long id) {
-        return null;
+    public Optional<Xe> getOneXeById(long id) {
+        return repository.findById(id);
     }
 }
