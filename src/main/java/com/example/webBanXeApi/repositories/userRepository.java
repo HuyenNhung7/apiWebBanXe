@@ -4,7 +4,6 @@
  */
 package com.example.webBanXeApi.repositories;
 
-import com.example.webBanXeApi.models.product;
 import com.example.webBanXeApi.models.user;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

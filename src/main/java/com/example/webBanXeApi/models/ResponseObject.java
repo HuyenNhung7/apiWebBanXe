@@ -16,28 +16,29 @@ public class ResponseObject<T> {
     private String status;
     private String message;
     private Object data;
-    private List<product> lst=null;    
-    private Page<product> lst2=null;
+
+    private List<Product> lst=null;
+    private Page<Product> lst2=null;
     private int count=0;    
     private int total=0;
 
 
-    public List<product> getLst() {
+    public List<Product> getLst() {
         return lst;
     }
 
-    public void setLst(List<product> lst) {
+    public void setLst(List<Product> lst) {
         this.lst = lst;
     }
 
     
 
-    public ResponseObject(int count,  List<product> lst) {
+    public ResponseObject(int count,  List<Product> lst) {
         this.lst=lst;
         this.count=count;
         //this.count=count;
     }
-    public ResponseObject(int count,  List<product> lst, int total) {
+    public ResponseObject(int count, List<Product> lst, int total) {
         this.lst=lst;
         this.count=count;        
         this.total=total;
@@ -52,7 +53,7 @@ public class ResponseObject<T> {
     public void setTotal(int total) {
         this.total = total;
     }
-    public ResponseObject(int count,  Page<product> lst2) {
+    public ResponseObject(int count,  Page<Product> lst2) {
         this.lst2= lst2;
         this.count=count;
         //this.count=count;
@@ -64,15 +65,15 @@ public class ResponseObject<T> {
         //this.count=count;
     }
 
-    public Page<product> getLst2() {
+    public Page<Product> getLst2() {
         return lst2;
     }
 
-    public void setLst2(Page<product> lst2) {
+    public void setLst2(Page<Product> lst2) {
         this.lst2 = lst2;
     }
 
-    public ResponseObject(List<product> result, int size) {
+    public ResponseObject(List<Product> result, int size) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         this.lst=result;
         this.count=size;

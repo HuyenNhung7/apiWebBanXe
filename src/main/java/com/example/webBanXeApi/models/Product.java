@@ -15,11 +15,10 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.util.Calendar;
-import java.util.Objects;
 
 @Entity
 @Table(name="tblProduct")
-public class product {
+public class Product {
     // Phải có "Primary key"
     @Id
     // sequence tạo rule thì thêm vào
@@ -29,26 +28,26 @@ public class product {
         sequenceName = "product_sequence",
         allocationSize = 1 // tăng 1
     )
-    
+
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
         generator = "product_sequence"
     )
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     //validate = constraint
     @Column(nullable = false, unique = true, length = 300)
     private String productName;
     private int year;
     private double price;
-    private String url;    
-    
+    private String url;
+
     @Column(name = "nguongoc")
     private String nguongoc;
 
-    
-    public product() {
+
+    public Product() {
     }
 
     // caced field = transient
@@ -58,26 +57,26 @@ public class product {
     public int getAge() {
         return Calendar.getInstance().get(Calendar.YEAR)-year;
     }
-    public product(String productName, int year, double price, String url,String nguongoc) {
+    public Product(String productName, int year, double price, String url, String nguongoc) {
         this.productName = productName;
         this.year = year;
         this.price = price;
         this.url = url;
         this.nguongoc=nguongoc;
     }
-        
+
     // id có thể tự sinh ra trong csdl
 
     //Hiện thông tin chi tiết của đối tượng
     @Override
     public String toString() {
-        return "product{" + "id=" + id + 
-                ", productName=" + productName + 
-                ", year=" + year + 
-                ", price=" + price + 
+        return "product{" + "id=" + id +
+                ", productName=" + productName +
+                ", year=" + year +
+                ", price=" + price +
                 ", url=" + url + '}';
     }
-    
+
     public long getId() {
         return id;
     }
@@ -116,6 +115,7 @@ public class product {
 
     public void setUrl(String url) {
         this.url = url;
-    }    
-    
+    }
+
 }
+
