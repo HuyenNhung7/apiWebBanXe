@@ -4,13 +4,17 @@
  */
 package com.example.webBanXeApi.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -47,6 +51,15 @@ public class user {
     private String chucvu;
     private String verifyToken;
 
+    @OneToMany(mappedBy = "us", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<News> newss = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "us2", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<HoaDon> hoadon2 = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "us3", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<HoaDon> hoadon3 = new ArrayList<>();
+    
     public String getEmail() {
         return email;
     }
@@ -149,5 +162,8 @@ public class user {
     public String toString() {
         return "user{" + "id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + '}';
     }
+    
+    
+   
     
 }

@@ -56,9 +56,7 @@ public class Product {
 
     
     //truc
-    @OneToMany(mappedBy = "pd", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<detailorder> detailOrders = new ArrayList<>();
-
+  
     
     
     

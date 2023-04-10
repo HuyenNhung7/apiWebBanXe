@@ -3,6 +3,8 @@ package com.example.webBanXeApi.models;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tblxe")
@@ -63,7 +65,13 @@ public class Xe {
     @Column(name = "DeXuat")
     private boolean deXuat;
 
-
+    @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<CTHD> cthds = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "xe2", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<KhoXe> khoxes = new ArrayList<>();
+    
+    
     public Xe(){};
 
     public Xe(String ten, String thuongHieu, String dongCo, int soCho, String kichThuoc, String nguonGoc, String vanTocToiDa, String dungTich, String tieuHaoNhienLieu, String congSuatCucDai, String mauSac, double giaXe, String hinhAnh, String moTa, int namSanXuat, int soLuong, boolean deXuat) {
