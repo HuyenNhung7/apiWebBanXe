@@ -5,15 +5,15 @@
 package com.example.webBanXeApi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.webBanXeApi.models.product;
-import com.example.webBanXeApi.models.user;
+import com.example.webBanXeApi.models.Product;
+
 import java.util.List;
 
-public interface productRepository extends JpaRepository<product, Long> {
-        List<product> findByProductName(String productName);        
-        List<product> findByUrl(String url);
-        List<product> findByUrlAndProductNameContainingIgnoreCase(String url, String productName);
-List<product> findByProductNameContainingIgnoreCase(String productName);
+public interface productRepository extends JpaRepository<Product, Long> {
+        List<Product> findByProductName(String productName);
+        List<Product> findByUrl(String url);
+        List<Product> findByUrlAndProductNameContainingIgnoreCase(String url, String productName);
+List<Product> findByProductNameContainingIgnoreCase(String productName);
     //List<product> findByCategoryAndNameContaining(String category, String name);
     //List<product> findByCategory(String category);
 

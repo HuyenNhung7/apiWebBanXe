@@ -5,9 +5,7 @@
 package com.example.webBanXeApi.controller;
 
 import com.example.webBanXeApi.models.ResponseObject;
-import com.example.webBanXeApi.models.product;
 import com.example.webBanXeApi.models.user;
-import com.example.webBanXeApi.repositories.productRepository;
 import com.example.webBanXeApi.repositories.userRepository;
 import com.example.webBanXeApi.service.jwtService;
 import java.util.List;
