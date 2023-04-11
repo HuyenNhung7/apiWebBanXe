@@ -39,9 +39,11 @@ public class XeController {
         return iXeService.getOneXeById(id);
     }
 
-
     @DeleteMapping("/delete")
     public boolean deleteXe(@RequestParam long id){
         return iXeService.deleteXe(id);
     }
+
+    // API lấy xe theo trang
+
 }

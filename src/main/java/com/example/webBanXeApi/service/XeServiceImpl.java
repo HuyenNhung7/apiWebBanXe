@@ -71,4 +71,13 @@ public class XeServiceImpl implements IXeService {
     public Optional<Xe> getOneXeById(long id) {
         return repository.findById(id);
     }
+
+    @Override
+    public List<Xe> getXeByPage(int page, int xePerPage) {
+        List<Xe> allXe = this.getAllXe();
+        int firstXeIndex = xePerPage*page;
+        int lastXeIndex = firstXeIndex + xePerPage - 1;
+            List<Xe> xeByPage = allXe.subList(firstXeIndex, lastXeIndex);
+        return xeByPage;
+    }
 }

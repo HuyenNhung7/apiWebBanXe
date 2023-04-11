@@ -19,4 +19,8 @@ public interface IXeService {
 
     // Hàm lấy 1 Xe theo Id
     public Optional<Xe> getOneXeById(long id);
+
+    // Hàm lấy xe theo trang
+    public List<Xe> getXeByPage(int page, int xePerPage);
+
 }
