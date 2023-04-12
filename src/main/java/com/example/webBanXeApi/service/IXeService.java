@@ -18,9 +18,17 @@ public interface IXeService {
     public List<Xe> getAllXe();
 
     // Hàm lấy 1 Xe theo Id
-    public Optional<Xe> getOneXeById(long id);
+    public Xe getOneXeById(long id);
 
     // Hàm lấy xe theo trang
-    public List<Xe> getXeByPage(int page, int xePerPage);
+    public List<Xe> getAllXeByPage(int currentPage, int size);
 
+    // Hàm phân trang cho một danh sách xe bất kỳ
+    public List<Xe> getXeByPage(int currentPage, int size, List<Xe> lstXe);
+
+    // Hàm tìm kiếm xe
+    public List<Xe> getXeByNameAndBranch(String name, String thuongHieu, int currentPage, int size);
+
+    // Hàm giảm số lượng của một xe khi có thêm xe vào hóa đơn
+    public boolean giamSoLuongXe(long id, int soLuongMua);
 }
