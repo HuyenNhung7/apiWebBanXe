@@ -7,7 +7,7 @@ package com.example.webBanXeApi.controller;
 import com.example.webBanXeApi.models.ResponseObject;
 import com.example.webBanXeApi.models.User;
 import com.example.webBanXeApi.repositories.UserRepository;
-import com.example.webBanXeApi.service.jwtService;
+import com.example.webBanXeApi.service.JWTService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class UserController {
     @Autowired
     private UserRepository repository;
     @Autowired
-    private jwtService jwtservice;
+    private JWTService jwtservice;
     @Autowired
     public JavaMailSender emailSender;
     
