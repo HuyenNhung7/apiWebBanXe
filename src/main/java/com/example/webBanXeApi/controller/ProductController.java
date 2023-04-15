@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.webBanXeApi.repositories.productRepository;
+import com.example.webBanXeApi.repositories.ProductRepository;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping(path = "/api/v1/products")
-public class productController {
+public class ProductController {
     // DI = Dependency Injection
     /* Khi để autowised thì ngay khi app chạy đối tượng repository đc
     tạo ra 1 lần và dùng mãi mãi */
     @Autowired
-    private productRepository repository;
+    private ProductRepository repository;
 
     @GetMapping("")
     public List<Product> getAllProducts() {

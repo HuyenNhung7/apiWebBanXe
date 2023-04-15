@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="tblUser")
-public class user {
+public class User {
     @Id
     // sequence tạo rule thì thêm vào
     // cái sequence ở dưới giống như AUTO
