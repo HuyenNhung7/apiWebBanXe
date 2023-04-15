@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.webBanXeApi.service.jwtService;
+import com.example.webBanXeApi.service.JWTService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RestController
 public class HelloWorldController {
     @Autowired
-    private jwtService jwtservice;
+    private JWTService jwtservice;
     @Autowired
     private AuthenticationManager authenticationManager;
      //@Autowired(required = false)

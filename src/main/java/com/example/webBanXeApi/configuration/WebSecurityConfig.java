@@ -6,7 +6,7 @@ package com.example.webBanXeApi.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import com.example.webBanXeApi.service.jwtFilter;
+import com.example.webBanXeApi.service.JWTFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,7 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
       @Autowired
-    private jwtFilter jwtfilter;
+    private JWTFilter jwtfilter;
 
     /*@Bean
 public FilterRegistrationBean<jwtFilter> jwtFilter() {
