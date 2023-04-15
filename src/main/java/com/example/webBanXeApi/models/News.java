@@ -39,7 +39,7 @@ public class News {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TacGia")
-    private user us;
+    private User us;
     
     
 }
