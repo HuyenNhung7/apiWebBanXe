@@ -7,8 +7,9 @@ securityFilterChain() function: [This function is used to create a SecurityFilte
 In this code, you are using the securityFilterChain function to configure the following security features:
 
 -   Disable CSRF protection (not recommended for production)
--   Allow all requests to /hello without authentication
--   Allow all other requests with any authentication
+-   Allow all requests (GET, PUT, POST,...) to /hello without authentication
+-   Allow GET requests to /api/v1/xe/all without authentication
+-   Disable authentication in other requests
 -   Add your custom jwtFilter before the UsernamePasswordAuthenticationFilter class
 
 **service/JWTFilter.java**
