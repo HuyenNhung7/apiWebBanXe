@@ -128,7 +128,7 @@ public class ProductController {
         Product updateProduct = repository.findById(id)
                 .map(product -> {
                     product.setProductName(newProduct.getProductName());
-                    product.setYear(newProduct.getYear());
+                    product.setManufacturingYear(newProduct.getManufacturingYear());
                     product.setPrice(newProduct.getPrice());
                     product.setUrl(newProduct.getUrl());
                     return repository.save(product);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import com.example.webBanXeApi.service.JWTFilter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -52,9 +53,9 @@ public FilterRegistrationBean<jwtFilter> jwtFilter() {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                .authorizeHttpRequests()
-               .requestMatchers("/hello").permitAll()
-                
-        .anyRequest().permitAll()
+               .requestMatchers("/hello").permitAll() // disable authentication for /hello endpoint
+                .requestMatchers(HttpMethod.GET, "/api/v1/xe/all").permitAll() // disable authentication for GET method in /api/v1/xe/all endpoint
+               .anyRequest().permitAll()
         .and()
         .addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class)
         .build();
