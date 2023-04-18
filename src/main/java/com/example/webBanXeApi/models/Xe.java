@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "tblxe")
 public class Xe {
-    String datetimeString = "2023-04-09 10:30:00";
+//    String datetimeString = "2023-04-09 10:30:00";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

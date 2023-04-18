@@ -5,9 +5,9 @@
 package com.example.webBanXeApi.controller;
 
 import com.example.webBanXeApi.models.ResponseObject;
-import com.example.webBanXeApi.models.user;
-import com.example.webBanXeApi.repositories.userRepository;
-import com.example.webBanXeApi.service.jwtService;
+import com.example.webBanXeApi.models.User;
+import com.example.webBanXeApi.repositories.UserRepository;
+import com.example.webBanXeApi.service.JWTService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +30,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = "/api/v1/user")
-public class userController {
+public class UserController {
     @Autowired
-    private userRepository repository;
+    private UserRepository repository;
     @Autowired
-    private jwtService jwtservice;
+    private JWTService jwtservice;
     @Autowired
     public JavaMailSender emailSender;
     
     @PostMapping("/register")
-    ResponseEntity<ResponseObject> insertUser(@RequestBody user newUser) {
+    ResponseEntity<ResponseObject> insertUser(@RequestBody User newUser) {
         // 2 products không nên trùng nhau
-        List<user> foundUsers = repository.findByEmail(newUser.getEmail().trim());
+        List<User> foundUsers = repository.findByEmail(newUser.getEmail().trim());
         if(foundUsers.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                  new ResponseObject("failed", "Existed email", "")
@@ -60,8 +60,8 @@ public class userController {
         
     }
     @PostMapping("/login")
-    ResponseEntity<ResponseObject> loginUser(@RequestBody user newUser) {
-        List<user> foundUsers = repository.findByEmail(newUser.getEmail().trim());
+    ResponseEntity<ResponseObject> loginUser(@RequestBody User newUser) {
+        List<User> foundUsers = repository.findByEmail(newUser.getEmail().trim());
         if(foundUsers.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                  new ResponseObject("failed", "Email not existed", "")
@@ -83,8 +83,8 @@ public class userController {
             );
     }
     @PutMapping("/{id}")
-    ResponseEntity<ResponseObject> updateUser(@RequestBody user newUser, @PathVariable Long id) {
-        Optional<user> updateUser = repository.findById(id)
+    ResponseEntity<ResponseObject> updateUser(@RequestBody User newUser, @PathVariable Long id) {
+        Optional<User> updateUser = repository.findById(id)
                 .map(user -> {
                     user.setUsername(newUser.getUsername());
                     user.setDiachi(newUser.getDiachi());
@@ -98,8 +98,8 @@ public class userController {
         );
     }
     @PostMapping("/forgetpass")
-    ResponseEntity<ResponseObject> forgetUser(@RequestBody user newUser) {
-        List<user> foundUsers = repository.findByEmail(newUser.getEmail().trim());
+    ResponseEntity<ResponseObject> forgetUser(@RequestBody User newUser) {
+        List<User> foundUsers = repository.findByEmail(newUser.getEmail().trim());
         if(foundUsers.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                  new ResponseObject("failed", "Email not existed", "")
@@ -125,11 +125,11 @@ public class userController {
     }
     
     @PostMapping("/forgetpass/{token}")
-    ResponseEntity<ResponseObject> forgetUser(@RequestBody user newUser, @PathVariable String token) {
+    ResponseEntity<ResponseObject> forgetUser(@RequestBody User newUser, @PathVariable String token) {
         String verifyToken =null; 
         verifyToken= jwtservice.extractUsername(token);
         
-        List<user> foundUsers = repository.findByEmail(verifyToken);
+        List<User> foundUsers = repository.findByEmail(verifyToken);
         if(foundUsers.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                  new ResponseObject("failed", "Cannot change due to wrong token", "")

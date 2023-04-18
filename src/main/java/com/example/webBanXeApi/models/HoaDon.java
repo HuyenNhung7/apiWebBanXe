@@ -108,5 +108,5 @@ public class HoaDon {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaNV")
-    private user us3;
+    private User us3;
 }

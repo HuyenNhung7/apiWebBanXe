@@ -6,21 +6,16 @@ package com.example.webBanXeApi.models;
 
 //POJO - Plain Old Java Object.
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import java.util.ArrayList;
-import java.util.Calendar;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.Calendar;
 
 
 @Entity
@@ -46,7 +41,7 @@ public class Product {
     //validate = constraint
     @Column(nullable = false, unique = true, length = 300)
     private String productName;
-    private int year;
+    private int manufacturingYear;
     private double price;
     private String url;
 
@@ -74,11 +69,11 @@ public class Product {
     @Transient
     private int age;
     public int getAge() {
-        return Calendar.getInstance().get(Calendar.YEAR)-year;
+        return Calendar.getInstance().get(Calendar.YEAR)- manufacturingYear;
     }
-    public Product(String productName, int year, double price, String url, String nguongoc) {
+    public Product(String productName, int manufacturingYear, double price, String url, String nguongoc) {
         this.productName = productName;
-        this.year = year;
+        this.manufacturingYear = manufacturingYear;
         this.price = price;
         this.url = url;
         this.nguongoc=nguongoc;
@@ -91,7 +86,7 @@ public class Product {
     public String toString() {
         return "product{" + "id=" + id +
                 ", productName=" + productName +
-                ", year=" + year +
+                ", year=" + manufacturingYear +
                 ", price=" + price +
                 ", url=" + url + '}';
     }
@@ -112,12 +107,12 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getYear() {
-        return year;
+    public int getManufacturingYear() {
+        return manufacturingYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setManufacturingYear(int manufacturingYear) {
+        this.manufacturingYear = manufacturingYear;
     }
 
     public double getPrice() {
