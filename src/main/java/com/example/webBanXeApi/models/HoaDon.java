@@ -48,7 +48,7 @@ public class HoaDon {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaKH")
-    private user us2;
+    private User us2;
 
     public long getId() {
         return id;
@@ -90,19 +90,19 @@ public class HoaDon {
         this.cthds = cthds;
     }
 
-    public user getUs2() {
+    public User getUs2() {
         return us2;
     }
 
-    public void setUs2(user us2) {
+    public void setUs2(User us2) {
         this.us2 = us2;
     }
 
-    public user getUs3() {
+    public User getUs3() {
         return us3;
     }
 
-    public void setUs3(user us3) {
+    public void setUs3(User us3) {
         this.us3 = us3;
     }
     
