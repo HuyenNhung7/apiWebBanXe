@@ -17,7 +17,9 @@ public class ResponseObject<T> {
     private String message;
     private Object data;
 
-    private List<Product> lst=null;
+    private List<Product> lst=null;    
+    private List<News> lstnews=null;
+
     private Page<Product> lst2=null;
     private int count=0;    
     private int total=0;
@@ -41,9 +43,13 @@ public class ResponseObject<T> {
     public ResponseObject(int count, List<Product> lst, int total) {
         this.lst=lst;
         this.count=count;        
-        this.total=total;
-
-        //this.count=count;
+        this.total=total; //this.count=count;
+    }
+    
+    public ResponseObject(int count,  int total, List<News> lstnews) {
+        this.lstnews=lstnews;
+        this.count=count;        
+        this.total=total; //this.count=count;
     }
 
     public int getTotal() {
@@ -98,6 +104,14 @@ public class ResponseObject<T> {
 
     public int getCount() {
         return count;
+    }
+
+    public List<News> getLstnews() {
+        return lstnews;
+    }
+
+    public void setLstnews(List<News> lstnews) {
+        this.lstnews = lstnews;
     }
 
     public void setCount(int count) {

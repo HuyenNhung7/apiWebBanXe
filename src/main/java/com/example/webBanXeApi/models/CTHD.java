@@ -4,6 +4,9 @@
  */
 package com.example.webBanXeApi.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,6 +23,8 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name="CTHD")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
 public class CTHD {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +32,7 @@ public class CTHD {
    
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "MaHD")
+   @JsonIgnore 
    private HoaDon hd;
    
    @ManyToOne(fetch = FetchType.LAZY)
@@ -41,5 +47,53 @@ public class CTHD {
    
    @Column(name = "TenXe")
    private String TenXe;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public HoaDon getHd() {
+        return hd;
+    }
+
+    public void setHd(HoaDon hd) {
+        this.hd = hd;
+    }
+
+    public Xe getXe() {
+        return xe;
+    }
+
+    public void setXe(Xe xe) {
+        this.xe = xe;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public int getGia() {
+        return gia;
+    }
+
+    public void setGia(int gia) {
+        this.gia = gia;
+    }
+
+    public String getTenXe() {
+        return TenXe;
+    }
+
+    public void setTenXe(String TenXe) {
+        this.TenXe = TenXe;
+    }
 
 }
