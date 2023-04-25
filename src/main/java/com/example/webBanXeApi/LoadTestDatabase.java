@@ -1,5 +1,6 @@
 package com.example.webBanXeApi;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,15 +12,18 @@ import org.springframework.stereotype.Component;
 public class LoadTestDatabase implements CommandLineRunner {
 
     private final XeRepository xeRepository;
+    private final NewsRepository newsRepository;
 
-    public LoadTestDatabase(XeRepository xeRepository) {
+    public LoadTestDatabase(XeRepository xeRepository, NewsRepository newsRepository) {
         this.xeRepository = xeRepository;
+        this.newsRepository = newsRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
         long xeCount = xeRepository.count();
+        long newsCount = newsRepository.count();
 
 // Check if the count is greater than 0, indicating that the table is not empty
         if (xeCount <= 0) {
@@ -36,6 +40,42 @@ public class LoadTestDatabase implements CommandLineRunner {
             Xe xe10 = new Xe("Xe J", "Thuong Hieu J", "Dong Co J", 5, "Kich Thuoc J", "Nguon Goc J", "Van Toc Toi Da J", "Dung Tich J", "Tieu Hao Nhien Lieu J", "Cong Suat Cuc Dai J", "Mau Sac J", 1800000.0, "Hinh Anh J", "Mo Ta J", 2020, 5, true);
             xeRepository.saveAll(List.of(xe1,xe2,xe3,xe4,xe5,xe6,xe7,xe8,xe9,xe10));
             System.out.println("Mockup Xe data loaded successfully!");
+        }
+        if (newsCount <= 0) {
+            // mockup data about cars for News class
+            News news1 = new News();
+            news1.setTitle("Tesla launches Model 3 in India with starting price of Rs 55 lakh");
+            news1.setContent("Tesla has finally launched its most affordable electric car, the Model 3, in India with a starting price of Rs 55 lakh (ex-showroom). The Model 3 is available in two variants: Standard Range Plus and Long Range. The Standard Range Plus variant has a range of 423 km on a single charge and can accelerate from 0 to 100 km/h in 5.6 seconds. The Long Range variant has a range of 568 km and can sprint from 0 to 100 km/h in 4.4 seconds. Both variants have a top speed of 225 km/h. The Model 3 comes with a 15-inch touchscreen that controls most of the functions of the car, such as navigation, music, climate, and settings. The car also has a full glass roof, wireless charging, and a spacious boot. The Model 3 is equipped with Tesla's Autopilot system, which can assist the driver with steering, braking, and lane changing. The car also has access to Tesla's Supercharger network, which can charge the battery up to 80% in 30 minutes.");
+            news1.setAuthor("Elon Musk");
+            news1.setDate(new Date(2023, Calendar.MAY, 25));
+            news1.setImage("https://cdn.motor1.com/images/mgl/6wL6x/s1/tesla-model-3.jpg");
+            news1.setCategory("Automobile");
+
+            News news2 = new News();
+            news2.setTitle("Toyota unveils hydrogen-powered Mirai with futuristic design and zero emissions");
+            news2.setContent("Toyota has unveiled its second-generation hydrogen-powered car, the Mirai, which features a futuristic design and zero emissions. The Mirai, which means 'future' in Japanese, is powered by a fuel cell that converts hydrogen into electricity and water. The car has a range of 650 km on a full tank of hydrogen and can be refueled in less than five minutes. The Mirai has a sleek and aerodynamic body that reduces drag and improves efficiency. The car has a spacious cabin that can accommodate five passengers and a large trunk. The car also has a 12.3-inch touchscreen that displays information such as speed, battery level, and navigation. The car also has advanced safety features such as adaptive cruise control, lane keep assist, and blind spot monitor. The Mirai is expected to go on sale in Japan later this year and in other markets next year.");
+            news2.setAuthor("Akio Toyoda");
+            news2.setDate(new Date(2023, Calendar.MAY, 25));
+            news2.setImage("https://www.toyota.com/content/dam/toyota-cms/homepage/2020/mirai/mirai-2020-og.jpg");
+            news2.setCategory("Environment");
+
+            News news4 = new News();
+            news4.setTitle("Maruti Suzuki launches Celerio X with sporty design and enhanced features");
+            news4.setContent("Maruti Suzuki has launched its new hatchback, the Celerio X, with a sporty design and enhanced features. The Celerio X is based on the Celerio but has a more aggressive and stylish look. The car has a black grille, bumper, and cladding, along with a roof rail and a rear spoiler. The car also has dual-tone alloy wheels and LED headlamps. The Celerio X is available in six colors: orange, blue, white, silver, gray, and green. The Celerio X has a spacious and comfortable cabin that can seat five people. The car has a 7-inch touchscreen infotainment system that supports Android Auto and Apple CarPlay. The car also has a multi-function steering wheel, automatic climate control, and rear parking sensors. The Celerio X is powered by a 1.0-liter petrol engine that produces 68 PS of power and 90 Nm of torque. The car has a fuel efficiency of 21.63 kmpl and can run on both petrol and CNG. The car has a manual and an automatic transmission option.");
+            news4.setAuthor("R.C. Bhargava");
+            news4.setDate(new Date(2023, Calendar.MAY, 25));
+            news4.setImage("https://imgd.aeplcdn.com/1056x594/cw/ec/41428/Maruti-Suzuki-Celerio-X-Exterior-170055.jpg?wm=0&q=85");
+            news4.setCategory("Automobile");
+
+            News news5 = new News();
+            news5.setTitle("Hyundai reveals Ioniq 5 electric SUV with futuristic design and fast charging");
+            news5.setContent("Hyundai has revealed its first electric SUV under its Ioniq sub-brand, the Ioniq 5, which features a futuristic design and fast charging. The Ioniq 5 is based on Hyundai's 45 concept car that was showcased in 2019. The car has a sharp and angular body that gives it a distinctive look. The car has a clamshell hood, pixel-inspired LED lights, flush door handles, and a solar roof. The car also has 20-inch alloy wheels that are the largest in its segment. The Ioniq 5 has a spacious and modular interior that can be customized according to the user's preference. The car has a sliding center console, reclining seats, a flat floor, and a large trunk. The car also has a dual-screen dashboard that consists of a 12-inch digital instrument cluster and a 12-inch touchscreen infotainment system. The car also has wireless charging, head-up display, and ambient lighting. The Ioniq 5 is powered by an electric motor that can deliver up to 306 PS of power and 605 Nm of torque. The car has a battery pack that can store up to 72 kWh of energy and can offer a range of up to 480 km on a single charge. The car also supports fast charging that can charge the battery from 10% to 80% in just 18 minutes.");
+            news5.setAuthor("Euisun Chung");
+            news5.setDate(new Date(2023, Calendar.MAY, 25));
+            news5.setImage("https://www.autocar.co.uk/sites/autocar.co.uk/files/styles/gallery_slide/public/images/car-reviews/first-drives/legacy/hyundai-ioniq-5-2021-fd-hero-front.jpg?itok=Z6zFZk7f");
+            news5.setCategory("Environment");
+            newsRepository.saveAll(List.of(news1,news2, news4, news5));
+            System.out.println("Mockup News data loaded successfully!");
         }
     }
 }

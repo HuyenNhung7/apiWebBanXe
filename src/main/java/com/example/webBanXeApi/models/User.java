@@ -51,9 +51,6 @@ public class User {
     private String chucvu;
     private String verifyToken;
 
-    @OneToMany(mappedBy = "us", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<News> newss = new ArrayList<>();
-    
     @OneToMany(mappedBy = "us2", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<HoaDon> hoadon2 = new ArrayList<>();
     

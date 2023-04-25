@@ -38,3 +38,12 @@ Endpoint: DELETE /api/v1/xe/{id}
 Description: Deletes a single Xe object by ID. Path parameter:
 
 -   id (required): The ID of the Xe to be deleted. Returns: A boolean indicating whether the deletion was successful.
+
+## News API
+```
+- `GET /api/v1/news`: Get all news articles.
+- `GET /api/v1/news/{id}`: Get a news article by its ID.
+- `POST /api/v1/news`: Create a new news article.
+- `PUT /api/v1/news/{id}`: Update an existing news article by its ID.
+- `DELETE /api/v1/news/{id}`: Delete a news article by its ID.
+```
