@@ -41,7 +41,7 @@ Description: Deletes a single Xe object by ID. Path parameter:
 
 ## News API
 ```
-- `GET /api/v1/news`: Get all news articles.
+- `GET /api/v1/news`: Get all news articles ("page, size" query parameters to handle pagination).
 - `GET /api/v1/news/{id}`: Get a news article by its ID.
 - `POST /api/v1/news`: Create a new news article.
 - `PUT /api/v1/news/{id}`: Update an existing news article by its ID.
