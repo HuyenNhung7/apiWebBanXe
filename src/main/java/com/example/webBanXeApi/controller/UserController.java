@@ -4,23 +4,32 @@
  */
 package com.example.webBanXeApi.controller;
 
+import com.example.webBanXeApi.DTO.CTHDDTO;
+import com.example.webBanXeApi.models.CTHD;
+import com.example.webBanXeApi.models.HoaDon;
+import com.example.webBanXeApi.models.Product;
 import com.example.webBanXeApi.models.ResponseObject;
 import com.example.webBanXeApi.models.User;
 import com.example.webBanXeApi.repositories.UserRepository;
 import com.example.webBanXeApi.service.JWTService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author TRUC
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/v1/user")
 public class UserController {
     @Autowired
@@ -77,7 +87,7 @@ public class UserController {
         }
         
         foundUsers.get(0).setToken(jwtservice.generateToken(foundUsers.get(0).getRole()));
-        
+        String token =  foundUsers.get(0).getToken();
         return ResponseEntity.status(HttpStatus.OK).body(
                  new ResponseObject("ok", "Login success!", foundUsers.get(0))
             );
@@ -124,10 +134,20 @@ public class UserController {
             );
     }
     
-    @PostMapping("/forgetpass/{token}")
-    ResponseEntity<ResponseObject> forgetUser(@RequestBody User newUser, @PathVariable String token) {
+    @PostMapping("/resetpass")
+    ResponseEntity<ResponseObject> forgetUser(@RequestBody User newUser, HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        String path = request.getServletPath();
+        String token2=null;
+        String username =null;
+        if(authHeader!=null && authHeader.startsWith("Bearer ")){
+           token2 = authHeader.substring(7);
+           System.out.print(token2);
+        }
+        
+        
         String verifyToken =null; 
-        verifyToken= jwtservice.extractUsername(token);
+        verifyToken= jwtservice.extractUsername(token2);
         
         List<User> foundUsers = repository.findByEmail(verifyToken);
         if(foundUsers.isEmpty()) {
@@ -141,13 +161,49 @@ public class UserController {
          String hashedPassword = passwordEncoder.encode(password);
         
         foundUsers.get(0).setPassword(hashedPassword);
-
+        repository.save(foundUsers.get(0));
+        
         
         return ResponseEntity.status(HttpStatus.OK).body(
                  new ResponseObject("ok", "Change password success!", foundUsers.get(0))
             );
     }
     
+    @GetMapping("/find/{id}")
+    public ResponseEntity<ResponseObject> getAllProductswithcount(@PathVariable Long id) {
+        Optional<User> result = repository.findById(id);
+        User user= new User();
+        if(result.isPresent()){
+            user = result.get();
+            if(user.getRole().equals("KH"))
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok","ok",user)
+                );  
+            else
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("not found","not found",null)
+                );
+        }else{   
+            return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("not found","not found",null)
+                );
+        }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseObject> getAllProductswithcount2(@PathVariable Long id) {
+        Optional<User> result = repository.findById(id);
+        User user= new User();
+        if(result.isPresent()){
+            user = result.get();
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok","ok",user)
+                );            
+        }else{   
+            return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("not found","not found",null)
+                );
+        }
+    }
     
     @ResponseBody
     @RequestMapping("/sendSimpleEmail")
@@ -164,5 +220,36 @@ public class UserController {
         this.emailSender.send(message);
 
         return "Email Sent!";
+    }
+    
+    
+    @GetMapping("/")
+    public ResponseEntity<ResponseObject> getAllProductswithpagereal(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String role,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "0") int size) {
+        List<User> result = null;
+        if (username == null ) {
+            result = repository.findByRole(role);
+//result = repository.findByProductNameContainingIgnoreCase(name);
+        } else {
+            result = repository.findByRoleAndUsernameContainingIgnoreCase(role,username);
+        } 
+
+        int total = result.size();
+        int totalpage = 1;
+        if(size!=0){
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, total);
+        result = result.subList(fromIndex, toIndex);
+        totalpage = (int)total/size;
+
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(total,result,totalpage)
+            );
     }
 }

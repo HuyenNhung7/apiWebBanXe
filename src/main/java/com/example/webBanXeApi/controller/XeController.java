@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/xe")
+@CrossOrigin(origins = "*")
 public class XeController {
 
     @Autowired
