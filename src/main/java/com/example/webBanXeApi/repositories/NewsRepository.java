@@ -9,4 +9,5 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
 
     // custom methods can be added here
 
+
 }

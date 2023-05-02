@@ -16,8 +16,10 @@ public class NewsController {
     private NewsService newsService;
 
     @GetMapping
-    public ResponseEntity<List<News>> getAllNews() {
-        List<News> newsList = newsService.getAllNews();
+    public ResponseEntity<List<News>> getAllNews( @RequestParam(defaultValue = "0") Integer page,
+                                                  @RequestParam(defaultValue = "10") Integer size
+                                                  ) {
+        List<News> newsList = newsService.getAllNews(page, size);
         return ResponseEntity.ok(newsList);
     }
 
