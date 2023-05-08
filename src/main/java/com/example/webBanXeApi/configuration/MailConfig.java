@@ -15,7 +15,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  * @author TRUC
  */
 @Configuration
-public class mailConfig {
+public class MailConfig {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

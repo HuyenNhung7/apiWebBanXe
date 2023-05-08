@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,10 +18,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author TRUC
  */
 @Component
-public class jwtFilter extends OncePerRequestFilter {
+public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
-    private jwtService jwtService;
+    private JWTService jwtService;
     //@Autowired
     //private UserInfoUserDetailsService userDetailsService;
     

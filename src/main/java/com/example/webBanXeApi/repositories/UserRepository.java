@@ -4,7 +4,7 @@
  */
 package com.example.webBanXeApi.repositories;
 
-import com.example.webBanXeApi.models.user;
+import com.example.webBanXeApi.models.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
  * @author TRUC
  */
 @Repository
-public interface userRepository extends JpaRepository<user, Long>{
-    List<user> findByEmail(String email);      
+public interface UserRepository extends JpaRepository<User, Long>{
+    List<User> findByEmail(String email);
+    List<User> findByRole(String role);
+    List<User> findByRoleAndUsernameContainingIgnoreCase(String role,String username);
 }

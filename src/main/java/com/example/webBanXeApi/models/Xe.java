@@ -63,7 +63,7 @@ public class Xe {
     private int soLuong;
 
     @Column(name = "DeXuat")
-    private boolean deXuat;
+    private Boolean deXuat = true;
 
     @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<CTHD> cthds = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Xe {
     
     public Xe(){};
 
-    public Xe(String ten, String thuongHieu, String dongCo, int soCho, String kichThuoc, String nguonGoc, String vanTocToiDa, String dungTich, String tieuHaoNhienLieu, String congSuatCucDai, String mauSac, double giaXe, String hinhAnh, String moTa, int namSanXuat, int soLuong, boolean deXuat) {
+    public Xe(String ten, String thuongHieu, String dongCo, int soCho, String kichThuoc, String nguonGoc, String vanTocToiDa, String dungTich, String tieuHaoNhienLieu, String congSuatCucDai, String mauSac, double giaXe, String hinhAnh, String moTa, int namSanXuat, int soLuong, Boolean deXuat) {
         this.ten = ten;
         this.thuongHieu = thuongHieu;
         this.dongCo = dongCo;
@@ -226,12 +226,12 @@ public class Xe {
         this.soLuong = soLuong;
     }
 
-    public boolean isDeXuat() {
+    public Boolean isDeXuat() {
         return deXuat;
     }
 
-    public void setDeXuat(boolean deXuat) {
-        this.deXuat = deXuat;
+    public void setDeXuat(Boolean deXuat) {
+        this.deXuat = true;
     }
 
 }

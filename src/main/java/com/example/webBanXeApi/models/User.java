@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="tblUser")
-public class user {
+public class User {
     @Id
     // sequence tạo rule thì thêm vào
     // cái sequence ở dưới giống như AUTO
@@ -51,9 +51,6 @@ public class user {
     private String chucvu;
     private String verifyToken;
 
-    @OneToMany(mappedBy = "us", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<News> newss = new ArrayList<>();
-    
     @OneToMany(mappedBy = "us2", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<HoaDon> hoadon2 = new ArrayList<>();
     
