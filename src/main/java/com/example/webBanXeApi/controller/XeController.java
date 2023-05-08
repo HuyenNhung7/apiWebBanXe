@@ -64,7 +64,7 @@ public class XeController {
 
     // API lấy xe theo trang
     // http://localhost:8080/api/v1/xe/page?page=0&size=2
-    @GetMapping("/page")
+//    @GetMapping("/page")
     public ResponseEntity<XeDto> getAllXeByPage(@RequestParam int page, @RequestParam int size) {
         List<Xe> results = iXeService.getAllXeByPage(page, size);
         return ResponseEntity.status(HttpStatus.OK).body(

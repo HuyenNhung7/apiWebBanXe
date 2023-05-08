@@ -1,4 +1,4 @@
-package com.example.webBanXeApi.controller;
+package com.example.webBanXeApi.DTO;
 
 import com.example.webBanXeApi.models.Form;
 
