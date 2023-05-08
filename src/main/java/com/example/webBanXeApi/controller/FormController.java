@@ -23,20 +23,20 @@ public class FormController {
 
     // api thêm form
     // http://localhost:8080/api/v1/form/add
-    @PostMapping("/add")
+    @PostMapping
     public Form addForm(@RequestBody Form form) {
         return iFormService.addForm(form);
     }
 
     // api xoa form
     // http://localhost:8080/api/v1/form/delete?id=...
-    @DeleteMapping("/delete")
-    public boolean deleteForm(@RequestParam long id) {
+    @DeleteMapping("/{id}")
+    public boolean deleteForm(@PathVariable long id) {
         return iFormService.deleteForm(id);
     }
 
     //api xoa tat ca form
-    @DeleteMapping("/delete/all")
+    @DeleteMapping("/all")
     public boolean deleteAllForm(){
         return iFormService.deleteAllForm();
     }
