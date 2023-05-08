@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("api/v1/xe")
 public class XeController {
@@ -74,6 +75,14 @@ public class XeController {
         List<Xe> results = iXeService.getXeByNameAndBranch(ten, thuongHieu, page, size);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new XeDto(results, iXeService.getAllXe().size(), page, size)
+        );
+    }
+
+    @GetMapping("/dexuat")
+    public ResponseEntity<XeDto> getXeByDeXuat() {
+        List<Xe> result= iXeService.getXeByDeXuat();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new XeDto(result, iXeService.getXeByDeXuat().size(), 0, result.size())
         );
     }
 }
