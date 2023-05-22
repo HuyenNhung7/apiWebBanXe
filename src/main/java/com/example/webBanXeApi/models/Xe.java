@@ -71,6 +71,9 @@ public class Xe {
     @OneToMany(mappedBy = "xe2", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<KhoXe> khoxes = new ArrayList<>();
     
+     @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<DanhGia> danhgias = new ArrayList<>();
+    
     
     public Xe(){};
 

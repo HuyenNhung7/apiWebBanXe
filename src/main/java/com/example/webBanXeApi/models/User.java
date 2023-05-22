@@ -57,6 +57,9 @@ public class User {
     @OneToMany(mappedBy = "us3", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<HoaDon> hoadon3 = new ArrayList<>();
     
+     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<DanhGia> danhgias = new ArrayList<>();
+    
     public String getEmail() {
         return email;
     }
