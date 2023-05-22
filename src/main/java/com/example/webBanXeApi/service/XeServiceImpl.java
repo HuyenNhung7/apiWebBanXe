@@ -5,6 +5,7 @@ import com.example.webBanXeApi.repositories.XeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,5 +127,17 @@ public class XeServiceImpl implements IXeService {
         }
         return true;
     }
+
+    @Override
+    public List<Xe> getXeByDeXuat() {
+        List<Xe> kq = new ArrayList<>();
+        List<Xe> allXe = getAllXe();
+        for(Xe xe : allXe) {
+            if(xe.isDeXuat())
+                kq.add(xe);
+        }
+        return kq;
+    }
+
 
 }

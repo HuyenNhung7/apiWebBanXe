@@ -31,4 +31,6 @@ public interface IXeService {
 
     // Hàm giảm số lượng của một xe khi có thêm xe vào hóa đơn
     public boolean giamSoLuongXe(long id, int soLuongMua);
+
+    public List<Xe> getXeByDeXuat();
 }
