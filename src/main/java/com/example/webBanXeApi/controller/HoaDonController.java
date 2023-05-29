@@ -12,7 +12,7 @@ import com.example.webBanXeApi.models.Product;
 import com.example.webBanXeApi.models.ResponseObject;
 import com.example.webBanXeApi.repositories.CHTDRepository;
 import com.example.webBanXeApi.repositories.HoaDonRepository;
-import com.example.webBanXeApi.repositories.userRepository;
+import com.example.webBanXeApi.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +43,7 @@ public class HoaDonController {
     private CHTDRepository cthdrepo;
      
      @Autowired
-    private userRepository userepo;
+    private UserRepository userepo;
      
      
     @GetMapping("/hd/find/{id}")
