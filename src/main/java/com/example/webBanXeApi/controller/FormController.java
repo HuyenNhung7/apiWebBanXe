@@ -1,7 +1,7 @@
 package com.example.webBanXeApi.controller;
 
+import com.example.webBanXeApi.DTO.FormDto;
 import com.example.webBanXeApi.models.Form;
-import com.example.webBanXeApi.service.FormServiceImpl;
 import com.example.webBanXeApi.service.IFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/form")
+@CrossOrigin(origins = "*")
 public class FormController {
     @Autowired
     private IFormService iFormService;
@@ -23,20 +24,20 @@ public class FormController {
 
     // api thêm form
     // http://localhost:8080/api/v1/form/add
-    @PostMapping("/add")
+    @PostMapping
     public Form addForm(@RequestBody Form form) {
         return iFormService.addForm(form);
     }
 
     // api xoa form
     // http://localhost:8080/api/v1/form/delete?id=...
-    @DeleteMapping("/delete")
-    public boolean deleteForm(@RequestParam long id) {
+    @DeleteMapping("/{id}")
+    public boolean deleteForm(@PathVariable long id) {
         return iFormService.deleteForm(id);
     }
 
     //api xoa tat ca form
-    @DeleteMapping("/delete/all")
+    @DeleteMapping("/all")
     public boolean deleteAllForm(){
         return iFormService.deleteAllForm();
     }
@@ -50,16 +51,16 @@ public class FormController {
     }
 
     @GetMapping("")
-    public ResponseEntity<FormDto> getAllFormPerPage(@RequestParam int currentPage,
+    public ResponseEntity<FormDto> getAllFormPerPage(@RequestParam int page,
                                                      @RequestParam int size) {
-        List<Form> result = iFormService.getAllFormPerPage(currentPage, size);
+        List<Form> result = iFormService.getAllFormPerPage(page, size);
         return ResponseEntity.ok(
-                new FormDto(result, iFormService.getAllForm().size(), currentPage, size)
+                new FormDto(result, iFormService.getAllForm().size(), page, size)
         );
     }
 
-    @GetMapping("/find")
-    public Form findFormById (@RequestParam long id) {
+    @GetMapping("/{id}")
+    public Form findFormById (@PathVariable long id) {
         return iFormService.findFormById(id);
     }
 }

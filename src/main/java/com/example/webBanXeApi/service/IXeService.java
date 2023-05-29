@@ -1,5 +1,6 @@
 package com.example.webBanXeApi.service;
 
+import com.example.webBanXeApi.models.KhuyenMai;
 import com.example.webBanXeApi.models.Xe;
 import java.util.List;
 import java.util.Optional;
@@ -31,4 +32,12 @@ public interface IXeService {
 
     // Hàm giảm số lượng của một xe khi có thêm xe vào hóa đơn
     public boolean giamSoLuongXe(long id, int soLuongMua);
+
+    public List<Xe> get10XeMoiNhat();
+
+    public Xe addKMToXe(long id_xe, long id_km);
+
+    public Xe deleteKMXe(long id_xe);
+
+    public List<Xe> filterXe(String thuonghieu, double min_gia, double max_gia, int soCho, int namSX, String nguongoc, int khuyenmai);
 }

@@ -1,25 +1,30 @@
 package com.example.webBanXeApi;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import com.example.webBanXeApi.repositories.*;
 import com.example.webBanXeApi.models.*;
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 @Component
 public class LoadTestDatabase implements CommandLineRunner {
 
     private final XeRepository xeRepository;
+    private final NewsRepository newsRepository;
 
-    public LoadTestDatabase(XeRepository xeRepository) {
+    public LoadTestDatabase(XeRepository xeRepository, NewsRepository newsRepository) {
         this.xeRepository = xeRepository;
+        this.newsRepository = newsRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
         long xeCount = xeRepository.count();
+        long newsCount = newsRepository.count();
 
 // Check if the count is greater than 0, indicating that the table is not empty
         if (xeCount <= 0) {
@@ -36,6 +41,23 @@ public class LoadTestDatabase implements CommandLineRunner {
             Xe xe10 = new Xe("Xe J", "Thuong Hieu J", "Dong Co J", 5, "Kich Thuoc J", "Nguon Goc J", "Van Toc Toi Da J", "Dung Tich J", "Tieu Hao Nhien Lieu J", "Cong Suat Cuc Dai J", "Mau Sac J", 1800000.0, "Hinh Anh J", "Mo Ta J", 2020, 5, true);
             xeRepository.saveAll(List.of(xe1,xe2,xe3,xe4,xe5,xe6,xe7,xe8,xe9,xe10));
             System.out.println("Mockup Xe data loaded successfully!");
+        }
+        if (newsCount <= 0) {
+            // mockup data about cars for News class
+            for (int i = 0; i < 100; i++) {
+                Faker faker = new Faker();
+                News news = new News();
+                news.setTitle(faker.leagueOfLegends().quote());
+                news.setContent(faker.company().name() + " is introducing a long-promised " + faker.dune().planet() + " package for " + faker.dragonBall().character() + ", promising to finally unlock the electric sedan's full performance capacity.");
+                news.setAuthor(faker.name().fullName());
+                news.setDate(faker.date().birthday());
+                news.setImage("https://generatorfun.com/code/uploads/Random-Car-image-"+ faker.random().nextInt(1,19) + ".jpg");
+                news.setCategory(faker.hacker().noun());
+                newsRepository.save(news);
+            }
+
+
+            System.out.println("Mockup News data loaded successfully!");
         }
     }
 }

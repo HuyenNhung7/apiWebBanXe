@@ -1,10 +1,13 @@
 package com.example.webBanXeApi.service;
 
+import com.example.webBanXeApi.models.KhuyenMai;
 import com.example.webBanXeApi.models.Xe;
+import com.example.webBanXeApi.repositories.KhuyenMaiRepository;
 import com.example.webBanXeApi.repositories.XeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,9 @@ import java.util.Optional;
 public class XeServiceImpl implements IXeService {
     @Autowired
     private XeRepository repository;
+
+    @Autowired
+    private KhuyenMaiRepository repository1;
 
     @Override
     public Xe addXe(Xe xe) {
@@ -26,6 +32,7 @@ public class XeServiceImpl implements IXeService {
     public Xe updateXe(long id, Xe xe) {
         if(xe != null) {
             Xe xe1 = repository.getById(id);
+//            Xe xe2 = repository.ge
             if(xe1 != null) {
                 xe1.setTen(xe.getTen());
                 xe1.setThuongHieu(xe.getThuongHieu());
@@ -126,5 +133,124 @@ public class XeServiceImpl implements IXeService {
         }
         return true;
     }
+
+    @Override
+    public List<Xe> get10XeMoiNhat() {
+        List<Xe> kq = new ArrayList<>();
+        List<Xe> allXe = getAllXe();
+        int index = allXe.size() - 10;
+        if(index < 0)
+            index = 0;
+        kq = allXe.subList(index, allXe.size());
+        return kq;
+    }
+
+    @Override
+    public Xe addKMToXe(long id_xe, long id_km) {
+        Xe xe = repository.findById(id_xe).orElse(null);
+        KhuyenMai km = repository1.findById(id_km).orElse(null);
+//        if(km.isConHieuLuc()) {
+            if (xe != null) {
+                if (km != null) {
+                    if(xe.getKhuyenMai() == null){
+                        xe.setKhuyenMai(km);
+                        repository.save(xe);
+                    } else {
+                        return null;
+                    }
+                } else {
+                    System.out.println("km ko ton tai");
+                }
+            } else {
+                System.out.println("ko co xe nay");
+//          }
+        }
+        return xe;
+    }
+
+    @Override
+    public Xe deleteKMXe(long id_xe) {
+        Xe xe = repository.findById(id_xe).orElse(null);
+        xe.setKhuyenMai(null);
+        return xe;
+    }
+
+    @Override
+    public List<Xe> filterXe(String thuonghieu, double min_gia, double max_gia, int soCho, int namSX, String nguongoc, int khuyenmai) {
+        List<Xe> lstXe = repository.findAll();
+        List<Xe> result = new ArrayList<>(lstXe);
+        int index;
+        if(thuonghieu != null) {
+            for (Xe xe : result) {
+                if(!xe.getThuongHieu().trim().equalsIgnoreCase(thuonghieu)) {
+                    lstXe.remove(xe);
+                }
+            }
+        }
+
+        if(max_gia !=0 && !lstXe.isEmpty()) {
+            for (Xe xe : result) {
+                if(xe.getGiaXe() < min_gia || xe.getGiaXe() > max_gia) {
+//                    index = lstXe.indexOf(xe);
+//                    lstXe.remove(index);
+                    lstXe.remove(xe);
+                }
+            }
+        }
+
+        if(soCho != 0 && !lstXe.isEmpty()) {
+            for (Xe xe : result) {
+                if(xe.getSoCho() != soCho) {
+//                    index = lstXe.indexOf(xe);
+//                    lstXe.remove(index);
+                    lstXe.remove(xe);
+                }
+            }
+        }
+
+        if(namSX != 0 && !lstXe.isEmpty()) {
+            for (Xe xe : result) {
+                if(xe.getNamSanXuat() != namSX) {
+//                    index = lstXe.indexOf(xe);
+//                    lstXe.remove(index);
+                    lstXe.remove(xe);
+                }
+            }
+        }
+
+        if(nguongoc!=null && !lstXe.isEmpty()) {
+            for (Xe xe : result) {
+                System.out.println(xe.getTen() + ", " + xe.getNguonGoc().trim());
+                if(!xe.getNguonGoc().trim().equalsIgnoreCase(nguongoc)) {
+                    System.out.println("nguon goc: " + nguongoc);
+//                    index = lstXe.indexOf(xe);
+//                    lstXe.remove(index);
+                    lstXe.remove(xe);
+                }
+            }
+        }
+
+        if(khuyenmai != -1 && !lstXe.isEmpty()) {
+            for (Xe xe : result) {
+                // co khuyen mai
+                if(khuyenmai == 1) {
+                    if(xe.getKhuyenMai() == null) {
+//                        index = lstXe.indexOf(xe);
+//                        lstXe.remove(index);
+                        lstXe.remove(xe);
+                    }
+                }
+                else {
+                    if(xe.getKhuyenMai() != null) {
+//                        index = lstXe.indexOf(xe);
+//                        lstXe.remove(index);
+                        lstXe.remove(xe);
+                    }
+                }
+            }
+        }
+        return lstXe;
+    }
+
 
 }

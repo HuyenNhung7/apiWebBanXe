@@ -21,6 +21,8 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
     //public List<HoaDon> findByUserNameContainingIgnoreCase(String name);
     //HoaDon findById(Long orderId);
 
-    public List<HoaDon> findByUs2(long id);
+    public List<HoaDon> findByUs2_Id(long id);
+
+    public List<HoaDon> findByTinhTrang(String tinhTrang);
     
 }

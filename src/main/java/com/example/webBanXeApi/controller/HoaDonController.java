@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author TRUC
  */
 @RestController
+@CrossOrigin(origins = "*")
 public class HoaDonController {
      @Autowired
     private HoaDonRepository repository;
@@ -46,7 +48,7 @@ public class HoaDonController {
     private UserRepository userepo;
      
      
-    @GetMapping("/hd/find/{id}")
+    @GetMapping("/hd/{id}")
     public ResponseEntity<ResponseObject> getorderbyid(@PathVariable Long id) {
         Optional<HoaDon> result = repository.findById(id);
         HoaDon hoadon= new HoaDon();
@@ -60,7 +62,7 @@ public class HoaDonController {
         }else{
             throw new UnsupportedOperationException("Not supported yet.");
         }
-        HoaDonDTO dto = new HoaDonDTO(hoadon.getTinhTrang(),hoadon.getTriGia(),cthddtos);
+        HoaDonDTO dto =new HoaDonDTO(hoadon.getId(),hoadon.getNgayHD(),hoadon.getUs2(),hoadon.getTinhTrang(),hoadon.getTriGia(),cthddtos);
         return ResponseEntity.status(HttpStatus.OK).body(
                  new ResponseObject("ok","ok",dto))
             ;
@@ -104,7 +106,7 @@ public class HoaDonController {
     @GetMapping("/hd")
     public ResponseEntity<ResponseObject> getAllProductswithpagereal(
             //@RequestParam(defaultValue = "0") long id,
-            //@RequestParam(required = false) String url,
+            @RequestParam(required = false) String tinhtrang,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "0") int size) {
         List<HoaDon> result = null;
@@ -113,7 +115,13 @@ public class HoaDonController {
         } else {
             result = repository.findAll();
         }*/
-        result = repository.findAll();
+        if (tinhtrang != null) {
+            result = repository.findByTinhTrang(tinhtrang);
+            System.out.print("vao cao nayyy");
+        } else {
+            result = repository.findAll();
+        }
+        //result = repository.findAll();
         int total = result.size();
         int totalpage = 1;
         if(size!=0){
@@ -130,7 +138,7 @@ public class HoaDonController {
              List<CTHD> detailorders = hoaDon.getCthds();
             cthddtos = detailorders.stream().map(dt-> new CTHDDTO(dt)).collect(Collectors.toList());
 
-            HoaDonDTO hoaDonDTO = new HoaDonDTO(hoaDon.getTinhTrang(),hoaDon.getTriGia(),cthddtos);
+            HoaDonDTO hoaDonDTO = new HoaDonDTO(hoaDon.getId(),hoaDon.getNgayHD(),hoaDon.getUs2(),hoaDon.getTinhTrang(),hoaDon.getTriGia(),cthddtos);
 
             hoaDonDTOs.add(hoaDonDTO);
         }
@@ -145,12 +153,54 @@ public class HoaDonController {
      
         if(result.isPresent()){
             hoadon = result.get();
-            hoadon.setTinhTrang("Hoan thanh");
+            hoadon.setTinhTrang("Da Hoan Thanh");
             repository.save(hoadon);
         }
         
         return ResponseEntity.status(HttpStatus.OK).body(
             new ResponseObject("ok", "Update successfully", null)
         );
+    }
+    
+    @GetMapping("/hduser/{id}")
+    public ResponseEntity<ResponseObject> getAllProductswithpagereal2(
+            //@RequestParam(defaultValue = "0") long id,
+            @PathVariable Long id,
+            //@RequestParam(required = false) String tinhtrang,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "0") int size) {
+        List<HoaDon> result = null;
+        /*if (id != 0) {
+            result = repository.findByUs2(id);
+        } else {
+            result = repository.findAll();
+        }*/
+        
+            result = repository.findByUs2_Id(id);
+        
+        //result = repository.findAll();
+        int total = result.size();
+        int totalpage = 1;
+        if(size!=0){
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, total);
+        result = result.subList(fromIndex, toIndex);
+        totalpage = (int)total/size;
+
+        }
+        List<CTHDDTO> cthddtos ;
+        List<HoaDonDTO> hoaDonDTOs = new ArrayList<>();
+        for (HoaDon hoaDon : result) {
+             List<CTHD> detailorders = hoaDon.getCthds();
+            cthddtos = detailorders.stream().map(dt-> new CTHDDTO(dt)).collect(Collectors.toList());
+
+            HoaDonDTO hoaDonDTO = new HoaDonDTO(hoaDon.getId(),hoaDon.getNgayHD(),hoaDon.getUs2(),hoaDon.getTinhTrang(),hoaDon.getTriGia(),cthddtos);
+
+            hoaDonDTOs.add(hoaDonDTO);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(total,hoaDonDTOs,totalpage)
+            );
     }
 }
