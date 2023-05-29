@@ -1,50 +1,76 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.example.webBanXeApi.controller;
 
 import com.example.webBanXeApi.models.News;
-import com.example.webBanXeApi.service.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import com.example.webBanXeApi.models.Product;
+import com.example.webBanXeApi.models.ResponseObject;
+import com.example.webBanXeApi.repositories.NewsRepository;
+//import com.example.webBanXeApi.repositories.productRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *
+ * @author TRUC
+ */
 @RestController
-@RequestMapping("/api/v1/news")
 public class NewsController {
-
     @Autowired
-    private NewsService newsService;
+    private NewsRepository repository;
+    
+    @PostMapping("/news/insert")
+    ResponseEntity<ResponseObject> insertProduct(@RequestBody News newNews) {
+        /*List<Product> foundProducts = repository.findByProductName(newProduct.getProductName().trim());
+        if(foundProducts.size() > 0) {
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+                 new ResponseObject("failed", "product name already taken!", "")
+            );
+        }*/
 
-    @GetMapping
-    public ResponseEntity<List<News>> getAllNews( @RequestParam(defaultValue = "0") Integer page,
-                                                  @RequestParam(defaultValue = "10") Integer size
-                                                  ) {
-        List<News> newsList = newsService.getAllNews(page, size);
-        return ResponseEntity.ok(newsList);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject("ok", "Insert product successfully!", repository.save(newNews))
+            );
+
     }
+    @GetMapping("/news")
+    public ResponseEntity<ResponseObject> getAllProductswithpagereal(
+            @RequestParam(required = false) String name,
+            //@RequestParam(required = false) String url,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "0") int size) {
+        List<News> result = null;
+        if (name != null) {
+            result = repository.findByTitle(name);
+        } else {
+            result = repository.findAll();
+            System.out.print("ko null");
+        }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<News> getNewsById(@PathVariable Integer id) {
-        News news = newsService.getNewsById(id);
-        return ResponseEntity.ok(news);
+        int total = result.size();
+        int totalpage = 1;
+        if(size!=0){
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, total);
+        result = result.subList(fromIndex, toIndex);
+        totalpage = (int)total/size;
+
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject(total,totalpage,result)
+            );
     }
-
-    @PostMapping
-    public ResponseEntity<News> createNews(@RequestBody News news) {
-        News createdNews = newsService.createNews(news);
-        return ResponseEntity.ok(createdNews);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<News> updateNews(@PathVariable Integer id, @RequestBody News news) {
-        News updatedNews = newsService.updateNews(id, news);
-        return ResponseEntity.ok(updatedNews);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNews(@PathVariable Integer id) {
-        newsService.deleteNews(id);
-        return ResponseEntity.noContent().build();
-    }
-
+    
+    
 }

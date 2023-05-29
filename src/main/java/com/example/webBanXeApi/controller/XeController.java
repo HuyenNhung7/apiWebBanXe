@@ -74,9 +74,33 @@ public class XeController {
 
     @GetMapping("/dexuat")
     public ResponseEntity<XeDto> getXeByDeXuat() {
-        List<Xe> result= iXeService.getXeByDeXuat();
+        List<Xe> result= iXeService.get10XeMoiNhat();
         return ResponseEntity.status(HttpStatus.OK).body(
-                new XeDto(result, iXeService.getXeByDeXuat().size(), 0, result.size())
+                new XeDto(result, iXeService.get10XeMoiNhat().size(), 0, result.size())
+        );
+    }
+
+    @PostMapping("/{id}")
+    public Xe addKMToXe(@PathVariable long id, @RequestParam long id_km) {
+        return iXeService.addKMToXe(id, id_km);
+    }
+
+    @DeleteMapping("/{id}/km")
+    public Xe deleteKMXe(@PathVariable long id) {
+        return iXeService.deleteKMXe(id);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<XeDto> filterXe(@RequestParam(required = false) String thuonghieu,
+                                          @RequestParam(defaultValue = "0") double min_gia,
+                                          @RequestParam(defaultValue = "0") double max_gia,
+                                          @RequestParam(defaultValue = "0") int soCho,
+                                          @RequestParam(defaultValue = "0") int namSX,
+                                          @RequestParam(required = false) String nguongoc,
+                                          @RequestParam(defaultValue = "-1") int khuyenmai){
+        List<Xe> result = iXeService.filterXe(thuonghieu, min_gia, max_gia, soCho, namSX, nguongoc, khuyenmai);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new XeDto(result, result.size(), 0, result.size())
         );
     }
 }

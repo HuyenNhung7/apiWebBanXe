@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/form")
+@CrossOrigin(origins = "*")
 public class FormController {
     @Autowired
     private IFormService iFormService;
@@ -50,16 +51,16 @@ public class FormController {
     }
 
     @GetMapping("")
-    public ResponseEntity<FormDto> getAllFormPerPage(@RequestParam int currentPage,
+    public ResponseEntity<FormDto> getAllFormPerPage(@RequestParam int page,
                                                      @RequestParam int size) {
-        List<Form> result = iFormService.getAllFormPerPage(currentPage, size);
+        List<Form> result = iFormService.getAllFormPerPage(page, size);
         return ResponseEntity.ok(
-                new FormDto(result, iFormService.getAllForm().size(), currentPage, size)
+                new FormDto(result, iFormService.getAllForm().size(), page, size)
         );
     }
 
-    @GetMapping("/find")
-    public Form findFormById (@RequestParam long id) {
+    @GetMapping("/{id}")
+    public Form findFormById (@PathVariable long id) {
         return iFormService.findFormById(id);
     }
 }

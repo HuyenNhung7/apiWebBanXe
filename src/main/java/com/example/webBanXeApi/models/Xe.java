@@ -68,13 +68,16 @@ public class Xe {
     @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<CTHD> cthds = new ArrayList<>();
     
+    @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<DanhGia> danhgias = new ArrayList<>();
+    
     @OneToMany(mappedBy = "xe2", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<KhoXe> khoxes = new ArrayList<>();
     
-     @OneToMany(mappedBy = "xe", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<DanhGia> danhgias = new ArrayList<>();
-    
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "khuyenmai_id", referencedColumnName = "id")
+    private KhuyenMai khuyenMai;
+
     public Xe(){};
 
     public Xe(String ten, String thuongHieu, String dongCo, int soCho, String kichThuoc, String nguonGoc, String vanTocToiDa, String dungTich, String tieuHaoNhienLieu, String congSuatCucDai, String mauSac, double giaXe, String hinhAnh, String moTa, int namSanXuat, int soLuong, Boolean deXuat) {
@@ -237,4 +240,11 @@ public class Xe {
         this.deXuat = true;
     }
 
+    public void setKhuyenMai(KhuyenMai khuyenMai) {
+        this.khuyenMai = khuyenMai;
+    }
+
+    public KhuyenMai getKhuyenMai() {
+        return khuyenMai;
+    }
 }
