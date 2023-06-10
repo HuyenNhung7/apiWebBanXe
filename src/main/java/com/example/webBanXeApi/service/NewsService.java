@@ -24,7 +24,7 @@ public class NewsService {
     }
 
     public News getNewsById(Integer id) {
-        return newsRepository.findById(id).orElseThrow(() -> new RuntimeException("News not found"));
+        return (News) newsRepository.findById(id);
     }
 
     public News createNews(News news) {

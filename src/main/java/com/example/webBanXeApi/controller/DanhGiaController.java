@@ -10,14 +10,22 @@ import com.example.webBanXeApi.DTO.HoaDonDTO;
 import com.example.webBanXeApi.models.CTHD;
 import com.example.webBanXeApi.models.DanhGia;
 import com.example.webBanXeApi.models.HoaDon;
+import com.example.webBanXeApi.models.MyRequestPayload;
 import com.example.webBanXeApi.models.ResponseObject;
 import com.example.webBanXeApi.repositories.DanhGiaRepository;
 import com.example.webBanXeApi.repositories.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -36,6 +45,8 @@ public class DanhGiaController {
     private UserRepository userepo;
     @Autowired
     private DanhGiaRepository danhgiarepo;
+    @Autowired
+    private RestTemplate restTemplate;
     
     @GetMapping("/danhgia")
     public ResponseEntity<ResponseObject> getAllProductswithpagereal(
@@ -80,19 +91,34 @@ public class DanhGiaController {
     
     
     @PostMapping("/danhgia")
-    ResponseEntity<ResponseObject> insertHD(@RequestBody DanhGia newDG) {
-        // 2 products không nên trùng nhau
-        //ist<Product> foundProducts = repository.findByProductName(newProduct.getProductName().trim());
-        /*if(foundProducts.size() > 0) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                 new ResponseObject("failed", "product name already taken!", "")
+    ResponseEntity<ResponseObject> insertHD(@RequestBody DanhGia newDG) throws JsonProcessingException {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        MyRequestPayload payload = new MyRequestPayload(newDG.getBinhLuan());
+        HttpEntity<MyRequestPayload> httpEntity = new HttpEntity<>(payload, headers);
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:5000/sentiment",
+         HttpMethod.POST, httpEntity, String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response.getBody());
+        System.out.print(jsonNode.get("sentiment").asText());        
+        if(jsonNode.get("sentiment").asText().equals("negative")){
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                 new ResponseObject("failed", "Binh luan chua tu nhay cam", newDG)
             );
-        }*/
-        DanhGia savedDG = danhgiarepo.save(newDG);
+        }else{
+            DanhGia savedDG = danhgiarepo.save(newDG);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                  new ResponseObject("ok", "Insert successfully!", newDG)
             );
+        }
+        
+        /*DanhGia savedDG = danhgiarepo.save(newDG);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                 new ResponseObject("ok", "Insert successfully!", newDG)
+            );*/
 
     }
     

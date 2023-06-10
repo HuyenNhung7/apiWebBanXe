@@ -17,4 +17,8 @@ import org.springframework.stereotype.Repository;
 public interface NewsRepository extends JpaRepository<News, Long> {
 
     public List<News> findByTitle(String name);
+
+    public Object findById(Integer id);
+
+    public void deleteById(Integer id);
 }
