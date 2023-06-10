@@ -23,15 +23,15 @@ public class NewsService {
         return pagedResult.toList();
     }
 
-    public News getNewsById(Integer id) {
-        return (News) newsRepository.findById(id);
+    public News getNewsById(Long id) {
+        return newsRepository.findById(id).orElseThrow(() -> new RuntimeException("News not found"));
     }
 
     public News createNews(News news) {
         return newsRepository.save(news);
     }
 
-    public News updateNews(Integer id, News news) {
+    public News updateNews(Long id, News news) {
         News existingNews = getNewsById(id);
         existingNews.setTitle(news.getTitle());
         existingNews.setContent(news.getContent());
@@ -42,7 +42,7 @@ public class NewsService {
         return newsRepository.save(existingNews);
     }
 
-    public void deleteNews(Integer id) {
+    public void deleteNews(Long id) {
         newsRepository.deleteById(id);
     }
 
