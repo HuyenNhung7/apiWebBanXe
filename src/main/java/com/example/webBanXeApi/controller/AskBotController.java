@@ -73,7 +73,7 @@ public class AskBotController {
     public Map<String, String> askGPTJ(@RequestBody AskMessage ask) throws JsonProcessingException {
         // make a POST request and return response
 
-        String url = "http://localhost:5000/ask"; // API endpoint URL
+        String url = "http://localhost:5000/askgptj"; // API endpoint URL
         String requestBody = "{\"question\":\"" + ask.getQuestion() + "\", \"context\":\"" + ask.getContext() + "\"}";
 
         HttpHeaders headers = new HttpHeaders();
@@ -135,6 +135,38 @@ public class AskBotController {
         } else {
             response.put("answer", "As an AI language model, I haven’t personally used this product, but based on its features and customer reviews, I can confidently give it a five-star rating");
         }
+        return response;
+    }
+    @PostMapping("/api/v1/ask/bard")
+    public Map<String, String> askBard(@RequestBody AskMessage ask) throws JsonProcessingException {
+        // make a POST request and return response
+
+        String url = "http://localhost:5000/askbard"; // API endpoint URL
+        String requestBody = "{\"question\":\"" + ask.getQuestion() + "\", \"context\":\"" + ask.getContext() + "\"}";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        String answer = "";
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // Deserialize the response body
+            ObjectMapper objectMapper = new ObjectMapper();
+            MessageResponse apiResponse = objectMapper.readValue(responseEntity.getBody(), MessageResponse.class);
+            answer = apiResponse.getMessage();
+
+        } else {
+            // Handle the error case
+            System.err.println("Request failed with status code: " + responseEntity.getStatusCode());
+        }
+        HashMap<String, String> response = new HashMap<>();
+        response.put("question", ask.getQuestion());
+        response.put("answer", answer);
+
         return response;
     }
 }
